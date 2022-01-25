@@ -12,8 +12,7 @@ import pandas as pd
 import re 
 import string  
 from collections import Counter
-#from wordcloud import WordCloud 
-import nltk
+#from wordcloud import WordCloud  
 from gensim.utils import simple_preprocess 
 import gensim
 from sklearn.model_selection import train_test_split
