@@ -18,8 +18,7 @@ import pandas as pd
 
 import string 
 ##
-import urllib
-from bs4 import BeautifulSoup
+import urllib 
 import time
 from time import sleep
 from datetime import date, timedelta
