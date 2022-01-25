@@ -7,8 +7,7 @@ import pandas as pd
  
 from PIL import Image 
 ##
-
-from keras.preprocessing.text import Tokenizer
+ 
 from keras.preprocessing.sequence import pad_sequences
 import pandas as pd
 import re
