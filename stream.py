@@ -27,8 +27,7 @@ import pandas as pd
 import urllib.request  
  
 ##
-
-import snscrape.modules.twitter as sntwitter 
+ 
 # Creating list to append tweet data to
 # Creating a dataframe from the tweets list above 
 ##
