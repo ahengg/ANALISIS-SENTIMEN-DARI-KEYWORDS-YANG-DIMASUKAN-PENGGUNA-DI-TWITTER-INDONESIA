@@ -10,8 +10,7 @@ from PIL import Image
   
 import pandas as pd
 import re 
-import string
-from nltk.corpus import stopwords
+import string 
 import nltk
 from nltk.corpus import wordnet
 from nltk.stem import WordNetLemmatizer
