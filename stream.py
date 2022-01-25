@@ -24,8 +24,7 @@ from time import sleep
 from datetime import date, timedelta
 import requests
 import pandas as pd  
-import urllib.request
-from selenium import webdriver
+import urllib.request 
 from selenium.webdriver.common.keys import Keys
 
 from selenium import webdriver
