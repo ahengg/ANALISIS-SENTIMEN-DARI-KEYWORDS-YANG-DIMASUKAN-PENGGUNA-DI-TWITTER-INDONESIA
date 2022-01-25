@@ -12,11 +12,7 @@ import pandas as pd
 import re 
 import string  
 from collections import Counter
-#from wordcloud import WordCloud   
-from sklearn.metrics import confusion_matrix
-import matplotlib.pyplot as plt 
-import tensorflow as tf
-import keras
+#from wordcloud import WordCloud    
 import numpy as np
 import pandas as pd
 
