@@ -3,9 +3,7 @@ from threading import activeCount
 import streamlit.components.v1 as components
 #
 import streamlit as st 
-import pandas as pd
- 
-from textblob import TextBlob
+import pandas as pd 
 from PIL import Image 
 ##
 
