@@ -11,7 +11,7 @@ from PIL import Image
 #from keras.preprocessing.sequence import pad_sequences
 import pandas as pd
 import re
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 import string
 from nltk.corpus import stopwords
 import nltk
