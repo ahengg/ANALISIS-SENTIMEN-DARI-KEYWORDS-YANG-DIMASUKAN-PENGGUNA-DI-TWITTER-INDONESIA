@@ -3,14 +3,17 @@ from threading import activeCount
 import streamlit.components.v1 as components
 #
 import streamlit as st 
-import pandas as pd 
+import pandas as pd
+ 
+from textblob import TextBlob
 from PIL import Image 
 ##
 
-#from keras.preprocessing.text import Tokenizer
-#from keras.preprocessing.sequence import pad_sequences
+from keras.preprocessing.text import Tokenizer
+from keras.preprocessing.sequence import pad_sequences
 import pandas as pd
-import re 
+import re
+import matplotlib.pyplot as plt
 import string
 from nltk.corpus import stopwords
 import nltk
@@ -26,7 +29,8 @@ from sklearn.model_selection import train_test_split
   
 import seaborn as sns
 from sklearn.metrics import confusion_matrix
-#import matplotlib.pyplot as plt  
+import matplotlib.pyplot as plt 
+import tensorflow as tf
 import keras
 import numpy as np
 import pandas as pd
