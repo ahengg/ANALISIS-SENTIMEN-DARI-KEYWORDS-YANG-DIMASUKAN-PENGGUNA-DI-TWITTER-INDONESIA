@@ -5,26 +5,60 @@ import streamlit.components.v1 as components
 import streamlit as st 
 import pandas as pd
  
+from textblob import TextBlob
 from PIL import Image 
 ##
-  
+
+from keras.preprocessing.text import Tokenizer
+from keras.preprocessing.sequence import pad_sequences
 import pandas as pd
-import re 
-import string  
+import re
+import matplotlib.pyplot as plt
+import string
+from nltk.corpus import stopwords
+import nltk
+from nltk.corpus import wordnet
+from nltk.stem import WordNetLemmatizer
+from nltk.tokenize.treebank import TreebankWordDetokenizer
 from collections import Counter
-#from wordcloud import WordCloud    
+#from wordcloud import WordCloud 
+import nltk
+from gensim.utils import simple_preprocess 
+import gensim
+from sklearn.model_selection import train_test_split
+  
+import seaborn as sns
+from sklearn.metrics import confusion_matrix
+import matplotlib.pyplot as plt 
+import tensorflow as tf
+import keras
 import numpy as np
 import pandas as pd
 
-import string 
+import string
+import nltk 
+from nltk.tokenize import RegexpTokenizer
+from nltk.stem import WordNetLemmatizer
+from nltk.stem.porter import PorterStemmer
 ##
-import urllib 
+import urllib
+from bs4 import BeautifulSoup
 import time
 from time import sleep
 from datetime import date, timedelta
 import requests
 import pandas as pd  
-import urllib.request  
+import urllib.request
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.common.by import By
+##
+
+import snscrape.modules.twitter as sntwitter 
  
 ##
  
