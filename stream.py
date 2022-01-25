@@ -16,11 +16,7 @@ from collections import Counter
 import numpy as np
 import pandas as pd
 
-import string
-import nltk 
-from nltk.tokenize import RegexpTokenizer
-from nltk.stem import WordNetLemmatizer
-from nltk.stem.porter import PorterStemmer
+import string 
 ##
 import urllib
 from bs4 import BeautifulSoup
