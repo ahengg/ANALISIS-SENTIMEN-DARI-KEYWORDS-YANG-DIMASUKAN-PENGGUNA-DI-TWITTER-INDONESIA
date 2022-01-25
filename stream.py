@@ -10,11 +10,7 @@ from PIL import Image
   
 import pandas as pd
 import re 
-import string 
-import nltk
-from nltk.corpus import wordnet
-from nltk.stem import WordNetLemmatizer
-from nltk.tokenize.treebank import TreebankWordDetokenizer
+import string  
 from collections import Counter
 #from wordcloud import WordCloud 
 import nltk
