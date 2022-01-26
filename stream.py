@@ -59,9 +59,6 @@ from selenium.webdriver.common.by import By
 ##
 
 import snscrape.modules.twitter as sntwitter 
- 
-##
- 
 # Creating list to append tweet data to
 # Creating a dataframe from the tweets list above 
 ##
@@ -335,123 +332,123 @@ if (result):
 
 #    
 
-col1,col2=st.columns([3,1])
-with col1:
-    import matplotlib.pyplot as plt
-    from datetime import datetime
-    MyList=[]
-    for a in createdAt:
-        MyList.append(a.strftime("%m/%d/%Y") )
+    col1,col2=st.columns([3,1])
+    with col1:
+        import matplotlib.pyplot as plt
+        from datetime import datetime
+        MyList=[]
+        for a in createdAt:
+            MyList.append(a.strftime("%m/%d/%Y") )
 
-    my_dict = {i:MyList.count(i) for i in MyList}
-    dates=[]
-    value=[]
-    for i in my_dict:
-        dates.append(i)
-        value.append(my_dict[i])
-    fig, ax = plt.subplots(figsize=(50, 20)) 
-    st.subheader('Perkembangan Tweet dari '+keywordUI)
-    df = pd.DataFrame({
-    'date': dates,
-    'second column': value
-    })
+        my_dict = {i:MyList.count(i) for i in MyList}
+        dates=[]
+        value=[]
+        for i in my_dict:
+            dates.append(i)
+            value.append(my_dict[i])
+        fig, ax = plt.subplots(figsize=(50, 20)) 
+        st.subheader('Perkembangan Tweet dari '+keywordUI)
+        df = pd.DataFrame({
+        'date': dates,
+        'second column': value
+        })
 
-    df = df.rename(columns={'date':'index'}).set_index('index')
- 
-    st.line_chart(df) 
-with col2:
-    import matplotlib.pyplot as plt
-    # Pie chart, where the slices will be ordered and plotted counter-clockwise:
-    st.subheader('Perbandingan Sentiment dari '+keywordUI)
-    labels = 'Negative', 'Neutral', 'Positive'
-    sizes = [15, 30, 45]# only "Neutral" the 2nd slice (i.e. 'Hogs')
-    explode = (0, 0.1, 0) 
-    fig1, ax1 = plt.subplots()
-    ax1.pie(sizes, explode=explode,labels=labels, autopct='%1.1f%%',
-            shadow=True, startangle=90,radius=0.5)
-    ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
-    st.pyplot(fig1, use_container_width=True)
+        df = df.rename(columns={'date':'index'}).set_index('index')
     
-    col2.metric("Total Impression", str(totalImpression))
+        st.line_chart(df) 
+    with col2:
+        import matplotlib.pyplot as plt
+        # Pie chart, where the slices will be ordered and plotted counter-clockwise:
+        st.subheader('Perbandingan Sentiment dari '+keywordUI)
+        labels = 'Negative', 'Neutral', 'Positive'
+        sizes = [15, 30, 45]# only "Neutral" the 2nd slice (i.e. 'Hogs')
+        explode = (0, 0.1, 0) 
+        fig1, ax1 = plt.subplots()
+        ax1.pie(sizes, explode=explode,labels=labels, autopct='%1.1f%%',
+                shadow=True, startangle=90,radius=0.5)
+        ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+        st.pyplot(fig1, use_container_width=True)
+        
+        col2.metric("Total Impression", str(totalImpression))
 
-from Sastrawi.StopWordRemover.StopWordRemoverFactory import StopWordRemoverFactory, ArrayDictionary, StopWordRemover
- 
-factory = StopWordRemoverFactory() 
+    from Sastrawi.StopWordRemover.StopWordRemoverFactory import StopWordRemoverFactory, ArrayDictionary, StopWordRemover
+    
+    factory = StopWordRemoverFactory() 
 
-stopword = factory.create_stop_word_remover()
-data = factory.get_stop_words()+['dengan', 'ia','bahwa','oleh','co','rt','t',"gue","yg","aku"] 
-dictionary = ArrayDictionary(data)
-stopword = StopWordRemover(dictionary)
-from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
-factory = StemmerFactory()
-stemmer = factory.create_stemmer()
-#
-wordFreq=[]
-import re
-from wordcloud import WordCloud, STOPWORDS
-comment_words = ''
-for val in tweet:
+    stopword = factory.create_stop_word_remover()
+    data = factory.get_stop_words()+['dengan', 'ia','bahwa','oleh','co','rt','t',"gue","yg","aku"] 
+    dictionary = ArrayDictionary(data)
+    stopword = StopWordRemover(dictionary)
+    from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
+    factory = StemmerFactory()
+    stemmer = factory.create_stemmer()
+    #
+    wordFreq=[]
+    import re
+    from wordcloud import WordCloud, STOPWORDS
+    comment_words = ''
+    for val in tweet:
+        
+        # typecaste each val to string 
+        val=stemmer.stem(val)
+        
+        val = re.sub(r"http\S+", "", val)
+        
+        val=stopword.remove(val)
+        # split the value
+        tokens = val.split()
+        
+        # Converts each token into lowercase
+        for i in range(len(tokens)):
+            tokens[i] = tokens[i].lower()
+            wordFreq.append(tokens[i])
+        comment_words += " ".join(tokens)+" "
+        
+    wordcloud = WordCloud(width = 800, height = 800,background_color ='white',   min_font_size = 10).generate(comment_words)
     
-    # typecaste each val to string 
-    val=stemmer.stem(val)
-    
-    val = re.sub(r"http\S+", "", val)
-    
-    val=stopword.remove(val)
-    # split the value
-    tokens = val.split()
-     
-    # Converts each token into lowercase
-    for i in range(len(tokens)):
-        tokens[i] = tokens[i].lower()
-        wordFreq.append(tokens[i])
-    comment_words += " ".join(tokens)+" "
-    
-wordcloud = WordCloud(width = 800, height = 800,background_color ='white',   min_font_size = 10).generate(comment_words)
- 
 
 
-#
-from collections import Counter
+    #
+    from collections import Counter
 
-counts = Counter(wordFreq)
-freq=Counter(wordFreq).most_common(5) 
-col1,col2,col3=st.columns(3)
-with col1: 
-    st.header("5 hasil kata yang paling sering muncul atau berelasi dengan " + keywordUI)
-    for i in range(0,5):
-        st.caption(str(i+1)+". "+str(freq[i][0])+": "+str(freq[i][1]))
-    i=0
-with col2: 
-    st.header("World Cloud dari "+ keywordUI)
-    # plot the WordCloud image                      
-    plt.figure(figsize = (8, 8), facecolor = None)
-    plt.imshow(wordcloud)
-    plt.axis("off")
-    plt.tight_layout(pad = 0)
-    st.pyplot()
-    
-with col3:
-    totalImpressionPerAccount.sort(reverse=True)
-    st.header("5 Account total impression terbanyak "+ keywordUI)
-    for i in range(0,5):
-        st.caption(str(i+1)+". "+str(totalImpressionPerAccount[i][1])+": "+str(totalImpressionPerAccount[i][0]))
-    i=0
+    counts = Counter(wordFreq)
+    freq=Counter(wordFreq).most_common(5) 
+    col1,col2,col3=st.columns(3)
+    with col1: 
+        st.header("5 hasil kata yang paling sering muncul atau berelasi dengan " + keywordUI)
+        for i in range(0,5):
+            st.caption(str(i+1)+". "+str(freq[i][0])+": "+str(freq[i][1]))
+        i=0
+    with col2: 
+        st.header("World Cloud dari "+ keywordUI)
+        # plot the WordCloud image                      
+        plt.figure(figsize = (8, 8), facecolor = None)
+        plt.imshow(wordcloud)
+        plt.axis("off")
+        plt.tight_layout(pad = 0)
+        st.pyplot()
+        
+    with col3:
+        totalImpressionPerAccount.sort(reverse=True)
+        st.header("5 Account total impression terbanyak "+ keywordUI)
+        for i in range(0,5):
+            st.caption(str(i+1)+". "+str(totalImpressionPerAccount[i][1])+": "+str(totalImpressionPerAccount[i][0]))
+        i=0
 
-col1, col2 = st.columns([1, 1])
-with col1:
-  with st.expander("Twitter tentang "+keywordUI +" "):
-    st.write(""" Berikut tweet-tweet yang ada : """) 
-    for j in range(5):  
-        st.markdown("<div class='card'><div class='card-header'>"+str(createdAt[j].strftime("%d %b %Y, %H:%M:%S"))+"</div><div class='card-body'><div class='container'><div class='row'><div class='col-2'><img src='"+str(proPic[j])+"' style='display: inline-block;border-radius:50%;background-repeat: no-repeat;background-position: center center;background-size: cover;'></div><div class='col-10'><h5 class='card-title'>"+str(users[j])+"</h5><p style='color: darkgray;margin-top: -20px;'>@"+str(screenName[j])+"</p></div></div></div><p class='card-text'>"+str(tweet[j])+"</p></div> <div class='card-footer''><i class='fa fa-retweet'></i>"+" "+str(retweet[j])+"  "+"<i class='fa fa-heart'></i> "+str(favorite[j])+"</div></div><br>", unsafe_allow_html=True)
-with col2:
-  with st.expander("Media online tentang "+keywordUI +" "):
-    st.write(""" Berikut berita-berita yang ada : """) 
-    
-    if (len(website_list)>=5):
-        lengthWeb=5
-    else :
-        lengthWeb=len(website_list)
-    for j in range(lengthWeb):  
-        st.markdown("<div class='card mb-3' style='max-width: 540px;margin:auto;'><div class='row no-gutters' ><div class='col-md-4'><img src='"+str(img_list[j])+"' class='card-img' alt='...' style='margin-left: 1rem;margin-top: 1rem;'> </div><div class='col-md-8'><div class='card-body'><h5 class='card-title'><a href='"+str(link_list[j])+"'>"+str(judul_list[j])+"</a></h5><p class='card-text'>"+str(isi_list[j])+"</p> <p class='card-text'><small class='text-muted'>"+str(tgl_list[j])+" by "+str(website_list[j])+" </small></p></div> </div></div></div>", unsafe_allow_html=True)
+    col1, col2 = st.columns([1, 1])
+    with col1:
+        with st.expander("Twitter tentang "+keywordUI +" "):
+            st.write(""" Berikut tweet-tweet yang ada : """) 
+            for j in range(5):  
+                st.markdown("<div class='card'><div class='card-header'>"+str(createdAt[j].strftime("%d %b %Y, %H:%M:%S"))+"</div><div class='card-body'><div class='container'><div class='row'><div class='col-2'><img src='"+str(proPic[j])+"' style='display: inline-block;border-radius:50%;background-repeat: no-repeat;background-position: center center;background-size: cover;'></div><div class='col-10'><h5 class='card-title'>"+str(users[j])+"</h5><p style='color: darkgray;margin-top: -20px;'>@"+str(screenName[j])+"</p></div></div></div><p class='card-text'>"+str(tweet[j])+"</p></div> <div class='card-footer''><i class='fa fa-retweet'></i>"+" "+str(retweet[j])+"  "+"<i class='fa fa-heart'></i> "+str(favorite[j])+"</div></div><br>", unsafe_allow_html=True)
+    with col2:
+        with st.expander("Media online tentang "+keywordUI +" "):
+            st.write(""" Berikut berita-berita yang ada : """) 
+            
+            if (len(website_list)>=5):
+                lengthWeb=5
+            else :
+                lengthWeb=len(website_list)
+            for j in range(lengthWeb):  
+                st.markdown("<div class='card mb-3' style='max-width: 540px;margin:auto;'><div class='row no-gutters' ><div class='col-md-4'><img src='"+str(img_list[j])+"' class='card-img' alt='...' style='margin-left: 1rem;margin-top: 1rem;'> </div><div class='col-md-8'><div class='card-body'><h5 class='card-title'><a href='"+str(link_list[j])+"'>"+str(judul_list[j])+"</a></h5><p class='card-text'>"+str(isi_list[j])+"</p> <p class='card-text'><small class='text-muted'>"+str(tgl_list[j])+" by "+str(website_list[j])+" </small></p></div> </div></div></div>", unsafe_allow_html=True)
 
