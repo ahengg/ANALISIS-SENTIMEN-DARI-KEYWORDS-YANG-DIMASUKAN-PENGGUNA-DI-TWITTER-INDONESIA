@@ -5,7 +5,6 @@ import streamlit.components.v1 as components
 import streamlit as st 
 import pandas as pd
  
-from textblob import TextBlob
 from PIL import Image 
 ##
 
